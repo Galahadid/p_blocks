@@ -1,0 +1,11 @@
+/* 全局微调样式 */
+:root {
+  --vp-font-family-base: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* 文章标题与正文的间距微调 */
+.vp-doc h2 {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--vp-c-divider);
+}
