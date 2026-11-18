@@ -98,6 +98,7 @@ const teekConfig = defineTeekConfig({
       // 把目录名映射成中文分组标题
       sidebarResolved: (data) => {
         const DIR_LABEL = {
+          crossplatform: '跨平台开发',
           frontend: '前端问题记录',
           backend: '后端问题记录',
           database: '数据库问题记录',
@@ -139,6 +140,7 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
+      { text: '跨平台开发', link: '/crossplatform/' },
       { text: '归档', link: '/archives' },
       { text: '分类', link: '/categories' },
       { text: '标签', link: '/tags' },
