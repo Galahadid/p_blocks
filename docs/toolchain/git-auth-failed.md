@@ -1,5 +1,6 @@
 ---
 title: 示例：Git 拉取代码时身份验证反复失败
+categories: 工具链
 date: 2026-03-20
 tags: [git, 环境配置, ssh]
 ---

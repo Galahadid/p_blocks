@@ -1,6 +1,8 @@
-# My Dev Blog
+# Galahadid 的技术博客
 
-基于 VitePress 的个人博客，用于记录工作与学习中遇到的问题。
+基于 VitePress + [Teek 主题](https://github.com/teekhub/vitepress-theme-teek) 的个人博客，用于记录工作与学习中遇到的问题。
+
+线上地址：https://p-blocks-isah.vercel.app
 
 ## 本地开发
 
@@ -16,30 +18,34 @@ npm run preview # 本地预览构建产物
 ```text
 my-blog/
 ├── .vitepress/
-│   ├── config.mts        # 站点配置（导航/侧边栏/搜索）
+│   ├── config.mts        # 站点配置（Teek 主题、导航、搜索、页脚）
 │   └── theme/
-│       ├── index.ts      # 主题入口
-│       ├── index.vue     # 布局扩展（Giscus 评论挂载点）
+│       ├── index.ts      # 主题入口（extends Teek）
 │       └── custom.css    # 自定义样式
 ├── docs/                 # Markdown 内容（URL 映射为站点根路径）
-│   ├── index.md          # 首页
+│   ├── index.md          # 首页（Teek banner + 文章列表）
+│   ├── archives.md       # 归档页
+│   ├── categories.md     # 分类页
+│   ├── tags.md           # 标签页
 │   ├── guide/about.md    # 关于页
 │   ├── frontend/         # 前端问题
 │   ├── backend/          # 后端问题
 │   ├── database/         # 数据库问题
-│   └── toolchain/        # 工具链问题
-└── package.json
+│   ├── toolchain/        # 工具链问题
+│   └── public/           # 静态资源（logo.svg、avatar.svg）
+└── vercel.json
 ```
 
 ## 如何新增文章
 
-在对应分类目录（如 `docs/frontend/`）下新建 `.md` 文件即可，侧边栏自动收录。
+在对应分类目录（如 `docs/frontend/`）下新建 `.md` 文件即可，归档/分类/标签页与首页列表自动收录。
 
-Front Matter 模板：
+Front Matter 模板（`categories` 决定归属的分类，`tags` 用于标签页）：
 
 ```yaml
 ---
 title: 文章标题
+categories: 前端
 date: 2026-03-20
 tags: [标签1, 标签2]
 ---
@@ -47,35 +53,39 @@ tags: [标签1, 标签2]
 
 正文推荐结构：**问题现象 → 排查过程 → 根因 → 解决方案 → 举一反三**。
 
-## 部署到 Vercel
+首页列表会读取 `<!-- more -->` 之前的内容作为摘要；没有该标记时自动截取前 300 字。
 
-1. 在 GitHub 创建新仓库 `my-blog`，然后推送：
+## 开启 Giscus 评论
 
-   ```bash
-   cd my-blog
-   git init
-   git add .
-   git commit -m "init: VitePress blog"
-   git remote add origin git@github.com:Galahadid/p_blocks.git
-   git push -u origin main
-   ```
+当前 `config.mts` 中 `comment.provider` 为空，评论区不渲染。开启步骤：
 
-2. 打开 [vercel.com](https://vercel.com)，用 GitHub 账号登录，点击 **Add New → Project**，导入 `my-blog` 仓库
-3. 构建设置 Vercel 会自动识别 VitePress：
-   - Framework Preset: **VitePress**
-   - Build Command: `npm run build`
-   - Output Directory: `.vitepress/dist`
-   - 若未自动识别，按上面手动填写
-4. 点击 Deploy，几十秒后即可通过 `https://my-blog-<你的用户名>.vercel.app` 访问
-
-## 上线后的个性化清单
-
-- [x] 全局替换 `your-username` 为你的 GitHub 用户名（`config.mts` 的 socialLinks、README、about 页）
-- [ ] 修改 `config.mts` 中的 `title`、`description`、`footer`、`sitemap.hostname`
-- [ ] 到 [giscus.app](https://giscus.app) 用仓库生成参数，替换 `.vitepress/theme/index.vue` 中的 `repo` / `repoId` / `category` / `categoryId`，激活评论
-- [ ] 更新首页 `docs/index.md` 的 hero 文案与功能介绍
+1. 仓库 **Settings → General → Features** 勾选 **Discussions**
+2. 到 [github.com/apps/giscus](https://github.com/apps/giscus) 安装并授权 `Galahadid/p_blocks`
+3. 打开 [giscus.app](https://giscus.app/zh-CN)，填入仓库 `Galahadid/p_blocks`，选择 Discussion 分类（如 `Announcements`），页面会生成 `data-repo-id` 与 `data-category-id`
+4. 把 `config.mts` 里注释掉的 `comment` 配置启用，替换 `repoId` / `categoryId` 两个值，重新构建部署
 
 ## 新增分类
 
 1. 在 `docs/` 下新建目录（如 `docs/devops/`）
-2. 在 `config.mts` 的 `nav` 和 `sidebar` 中各加一条，sidebar 使用 `sidebarFromDir('devops')` 自动收录文章
+2. 在 `config.mts` 的 `nav` 里加一条导航
+3. 新文章的 Front Matter 写 `categories: DevOps` 即可自动进入分类页
+
+## 部署到 Vercel
+
+仓库已关联 Vercel，推送 `main` 分支自动部署。
+
+手动部署：`vercel --prod`（需先 `npm i -g vercel` 并登录）。
+
+Vercel 构建设置：
+
+- Framework Preset: **VitePress**
+- Build Command: `npm run build`
+- Output Directory: `.vitepress/dist`
+
+## 上线后的个性化清单
+
+- [x] 全局替换 `your-username` 为 GitHub 用户名 `Galahadid`
+- [x] 站点标题、描述、footer、sitemap.hostname 换成实际值
+- [x] 归档 / 分类 / 标签页已建好并接入导航
+- [ ] 开启 Giscus 评论（见上文「开启 Giscus 评论」）
+- [ ] 按需替换 `docs/public/logo.svg`、`docs/public/avatar.svg` 为自己的图标与头像

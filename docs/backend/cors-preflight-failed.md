@@ -1,5 +1,6 @@
 ---
 title: 示例：跨域请求预检失败（CORS）
+categories: 后端
 date: 2026-03-15
 tags: [http, cors, 前后端联调]
 ---

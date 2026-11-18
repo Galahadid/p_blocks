@@ -1,5 +1,6 @@
 ---
 title: 示例：Vite 打包后白屏问题排查
+categories: 前端
 date: 2026-03-12
 tags: [vite, 构建打包, 白屏]
 ---

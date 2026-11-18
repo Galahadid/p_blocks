@@ -1,5 +1,6 @@
 ---
 title: 示例：MySQL 查询突然变慢，索引失效排查
+categories: 数据库
 date: 2026-03-18
 tags: [mysql, 索引, 性能优化]
 ---

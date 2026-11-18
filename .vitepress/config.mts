@@ -1,70 +1,117 @@
 import { defineConfig } from 'vitepress'
-import { readdirSync, statSync, existsSync } from 'node:fs'
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { defineTeekConfig } from 'vitepress-theme-teek/config'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
+// 站点基础信息：部署上线后把 domain 换成你的 Vercel 域名
+const SITE = 'https://p-blocks-isah.vercel.app'
 
-// 站点基础信息：部署上线后把 domain 换成你的 Vercel 域名（如 https://my-blog.vercel.app）
-const SITE = 'https://my-blog.vercel.app'
+// Teek 主题配置：博客形态（banner 首页 + 文章列表 + 归档/分类/标签页）
+const teekConfig = defineTeekConfig({
+  // 首页 Banner
+  banner: {
+    name: 'Galahadid 的技术博客',
+    bgStyle: 'partImg',
+    description: ['记录踩过的每一个坑，让下次排查不再从零开始']
+  },
+
+  // 首页文章列表风格：list（列表）/ card（卡片）
+  post: {
+    postStyle: 'list',
+    showCapture: true,
+    splitSeparator: true
+  },
+  // 首页每页文章数
+  page: {
+    pageSize: 8
+  },
+
+  // 博主信息卡片
+  blogger: {
+    name: 'Galahadid',
+    slogan: '记录工作与学习中遇到的问题',
+    avatar: '/avatar.svg',
+    shape: 'circle'
+  },
+
+  // 分类页 / 标签页地址
+  category: { path: '/categories' },
+  tag: { path: '/tags' },
+
+  // 评论：默认关闭（provider 为空则不渲染评论区）
+  // 开启步骤见 README「开启 Giscus 评论」：仓库开 Discussions → 安装 giscus App → giscus.app 取 categoryId
+  comment: {
+    provider: ''
+  },
+  // 参数齐备后，把上面 comment 替换为下面这段即可
+  // comment: {
+  //   provider: 'giscus',
+  //   options: {
+  //     repo: 'Galahadid/p_blocks',
+  //     repoId: 'R_kgDOVy5Bmg',
+  //     category: 'Announcements',
+  //     categoryId: '请替换为 giscus.app 生成的 categoryId',
+  //     mapping: 'pathname',
+  //     strict: '0',
+  //     reactionsEnabled: '1',
+  //     inputPosition: 'top',
+  //     lang: 'zh-CN',
+  //     loading: 'lazy',
+  //     useOnline: true
+  //   }
+  // },
+
+  // 页脚
+  footerGroup: [
+    {
+      title: '站点',
+      links: [
+        { name: '首页', link: '/' },
+        { name: '归档', link: '/archives' },
+        { name: '分类', link: '/categories' },
+        { name: '标签', link: '/tags' }
+      ]
+    },
+    {
+      title: '关于',
+      links: [
+        { name: '关于本站', link: '/guide/about' },
+        { name: 'GitHub', link: 'https://github.com/Galahadid' }
+      ]
+    }
+  ],
+  footerInfo: {
+    copyright: {
+      createYear: 2026,
+      suffix: 'Galahadid'
+    }
+  }
+})
 
 export default defineConfig({
+  extends: teekConfig,
+
   lang: 'zh-CN',
   srcDir: 'docs', // Markdown 内容放在 docs/ 下，URL 映射为站点根路径
   title: 'Galahadid 的技术博客',
-  description: '记录工作与学习中遇到的问题和解决方案',
-  lastUpdated: true, // 显示 Git 最后提交时间（需 Git 仓库）
+  description: 'Galahadid 的个人博客：记录工作与学习中遇到的问题和解决方案',
+  lastUpdated: true, // 显示 Git 最后提交时间
 
   head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }]],
 
-  // 在 Vercel 上可直接用默认值；如部署到子路径才需要改 base
   cleanUrls: true,
 
   markdown: {
-    lineNumbers: true, // 代码块显示行号
+    lineNumbers: true,
     theme: 'github-dark'
   },
 
   themeConfig: {
     nav: [
       { text: '首页', link: '/' },
-      { text: '前端', link: '/frontend/' },
-      { text: '后端', link: '/backend/' },
-      { text: '数据库', link: '/database/' },
-      { text: '工具链', link: '/toolchain/' },
+      { text: '归档', link: '/archives' },
+      { text: '分类', link: '/categories' },
+      { text: '标签', link: '/tags' },
       { text: '关于', link: '/guide/about' }
     ],
-
-    sidebar: {
-      '/frontend/': [
-        {
-          text: '前端问题记录',
-          collapsed: false,
-          items: sidebarFromDir('frontend')
-        }
-      ],
-      '/backend/': [
-        {
-          text: '后端问题记录',
-          collapsed: false,
-          items: sidebarFromDir('backend')
-        }
-      ],
-      '/database/': [
-        {
-          text: '数据库问题记录',
-          collapsed: false,
-          items: sidebarFromDir('database')
-        }
-      ],
-      '/toolchain/': [
-        {
-          text: '工具链问题记录',
-          collapsed: false,
-          items: sidebarFromDir('toolchain')
-        }
-      ]
-    },
 
     socialLinks: [{ icon: 'github', link: 'https://github.com/Galahadid' }],
 
@@ -88,16 +135,6 @@ export default defineConfig({
       }
     },
 
-    footer: {
-      message: '用 Markdown 记录每一个踩过的坑',
-      copyright: 'Copyright © 2026 My Dev Blog'
-    },
-
-    docFooter: {
-      prev: '上一篇',
-      next: '下一篇'
-    },
-
     lastUpdated: {
       text: '最后更新于',
       formatOptions: {
@@ -109,27 +146,8 @@ export default defineConfig({
     outline: {
       level: [2, 3],
       label: '本页目录'
-    },
-
-    returnToTopLabel: '回到顶部',
-    sidebarMenuLabel: '菜单'
+    }
   },
 
   sitemap: { hostname: SITE }
 })
-
-/**
- * 根据分类目录自动生成侧边栏条目。
- * 新增文章时只需在对应目录下创建 .md 文件，侧边栏自动更新，
- * 不再需要手动维护 sidebar 配置。
- */
-function sidebarFromDir(dir) {
-  const base = join(__dirname, '..', 'docs', dir)
-  if (!existsSync(base)) return []
-  return readdirSync(base)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => ({
-      text: f.replace(/\.md$/, ''),
-      link: `/${dir}/${f.replace(/\.md$/, '')}`
-    }))
-}
