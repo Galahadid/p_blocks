@@ -36,24 +36,84 @@ my-blog/
 └── vercel.json
 ```
 
-## 如何新增文章
+## 写文章：三种方式，任选一种
 
-在对应分类目录（如 `docs/frontend/`）下新建 `.md` 文件即可，归档/分类/标签页与首页列表自动收录。
+### 方式一：命令行一键新建（推荐）
 
-Front Matter 模板（`categories` 决定归属的分类，`tags` 用于标签页）：
+```bash
+# 从零新建（会生成带 frontmatter 的骨架）
+npm run new -- --title "Nginx 反向代理 502 排查" --category 后端 --tags nginx,502 --slug nginx-502
+
+# 导入已经写好的 md 文件（自动补 frontmatter、去掉重复的一级标题）
+npm run new -- --file "D:/我的笔记/redis-slow.md" --category 数据库 --tags redis,性能 --slug redis-slow
+```
+
+`--category` 可选：`前端` / `后端` / `数据库` / `工具链` / `关于`，也可以传自定义分类名（会新建对应目录）。
+`--slug` 建议用英文短横线，它决定网址（如 `/backend/nginx-502`）；省略时按日期自动生成。
+
+### 方式二：手动新建文件
+
+在对应分类目录下新建 `.md` 文件即可，例如 `docs/backend/nginx-502.md`：
 
 ```yaml
 ---
-title: 文章标题
-categories: 前端
-date: 2026-03-20
-tags: [标签1, 标签2]
+title: Nginx 反向代理 502 排查
+categories: 后端
+date: 2026-11-20
+tags: [nginx, 502]
 ---
+
+## 问题现象
+...
 ```
 
-正文推荐结构：**问题现象 → 排查过程 → 根因 → 解决方案 → 举一反三**。
+**归类靠两个字段**：
 
-首页列表会读取 `<!-- more -->` 之前的内容作为摘要；没有该标记时自动截取前 300 字。
+| 字段 | 作用 | 举例 |
+| --- | --- | --- |
+| `categories` | 决定文章归属的分类，分类页按它分组 | `categories: 后端` |
+| `tags` | 标签，标签页按它聚合，可多个 | `tags: [nginx, 502]` |
+
+### 方式三：在小艺里直接说
+
+把写好的文档发给我，说「加到博客，归类到数据库，标签 redis」即可，我按上面规则落盘、构建、推送。
+
+## 上传后怎么发布
+
+```bash
+npm run dev                      # 本地预览 http://localhost:5173
+git add -A
+git commit -m "post: 文章标题"
+git push                         # 推送后 Vercel 自动部署
+```
+
+## 目录结构与归类关系
+
+```text
+docs/
+├── index.md            # 首页
+├── archives.md         # 归档（按年月自动聚合全部文章）
+├── categories.md       # 分类（按 categories 字段分组）
+├── tags.md             # 标签（按 tags 字段聚合）
+├── frontend/           # 前端问题记录
+├── backend/            # 后端问题记录
+├── database/           # 数据库问题记录
+├── toolchain/          # 工具链问题记录
+└── guide/about.md      # 关于
+```
+
+文章放在哪个目录，决定了它的网址前缀和左侧边栏分组；`categories` 字段决定分类页里的归属；`tags` 决定标签页聚合。三者可以不一致（比如文章放在 `backend/`，但 `categories: 架构`），一般保持一致更直观。
+
+## 新增分类
+
+```bash
+mkdir docs/devops
+```
+
+1. 新建 `docs/devops/index.md` 作为分类首页（`title` 会显示为侧边栏分组名）
+2. 在 `config.mts` 的 `nav` 里加导航
+3. 在 `config.mts` 的 `sidebarResolved` 里给 `devops` 配一个中文分组名
+4. 新文章写 `categories: DevOps` 即可自动进入分类页
 
 ## 开启 Giscus 评论
 
@@ -63,12 +123,6 @@ tags: [标签1, 标签2]
 2. 到 [github.com/apps/giscus](https://github.com/apps/giscus) 安装并授权 `Galahadid/p_blocks`
 3. 打开 [giscus.app](https://giscus.app/zh-CN)，填入仓库 `Galahadid/p_blocks`，选择 Discussion 分类（如 `Announcements`），页面会生成 `data-repo-id` 与 `data-category-id`
 4. 把 `config.mts` 里注释掉的 `comment` 配置启用，替换 `repoId` / `categoryId` 两个值，重新构建部署
-
-## 新增分类
-
-1. 在 `docs/` 下新建目录（如 `docs/devops/`）
-2. 在 `config.mts` 的 `nav` 里加一条导航
-3. 新文章的 Front Matter 写 `categories: DevOps` 即可自动进入分类页
 
 ## 部署到 Vercel
 

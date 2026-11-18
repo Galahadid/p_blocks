@@ -83,6 +83,38 @@ const teekConfig = defineTeekConfig({
       createYear: 2026,
       suffix: 'Galahadid'
     }
+  },
+
+  // 侧边栏：自动扫描 docs 下各目录生成，分组标题用目录中文名
+  vitePlugins: {
+    sidebarOption: {
+      initItems: true,
+      initItemsText: true,
+      titleFormMd: true,
+      collapsed: true,
+      sort: true,
+      // 根目录的 archives/categories/tags/index 是聚合页，不作为侧边栏
+      scannerRootMd: false,
+      // 把目录名映射成中文分组标题
+      sidebarResolved: (data) => {
+        const DIR_LABEL = {
+          frontend: '前端问题记录',
+          backend: '后端问题记录',
+          database: '数据库问题记录',
+          toolchain: '工具链问题记录',
+          guide: '关于本站'
+        }
+        for (const key of Object.keys(data)) {
+          const dir = key.replace(/\//g, '')
+          const label = DIR_LABEL[dir]
+          if (!label) continue
+          for (const item of data[key] || []) {
+            if (item.text === dir) item.text = label
+          }
+        }
+        return data
+      }
+    }
   }
 })
 
