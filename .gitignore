@@ -3,3 +3,8 @@ node_modules/
 .vitepress/cache/
 *.log
 .DS_Store
+p_bloks
+p_bloks.pub
+*.pem
+id_rsa*
+
