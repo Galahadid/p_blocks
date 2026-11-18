@@ -18,7 +18,7 @@ const { Layout } = DefaultTheme
           3. 生成参数需要先完成本仓库的首次推送
         -->
         <Giscus
-          repo="your-username/my-blog"
+          repo="Galahadid/p_blocks"
           repo-id="REPLACE_WITH_YOUR_REPO_ID"
           category="Announcements"
           category-id="REPLACE_WITH_YOUR_CATEGORY_ID"

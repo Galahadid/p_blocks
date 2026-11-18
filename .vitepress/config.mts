@@ -11,7 +11,7 @@ const SITE = 'https://my-blog.vercel.app'
 export default defineConfig({
   lang: 'zh-CN',
   srcDir: 'docs', // Markdown 内容放在 docs/ 下，URL 映射为站点根路径
-  title: 'My Dev Blog',
+  title: 'Galahadid 的技术博客',
   description: '记录工作与学习中遇到的问题和解决方案',
   lastUpdated: true, // 显示 Git 最后提交时间（需 Git 仓库）
 
@@ -66,7 +66,7 @@ export default defineConfig({
       ]
     },
 
-    socialLinks: [{ icon: 'github', link: 'https://github.com/your-username' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/Galahadid' }],
 
     search: {
       provider: 'local',

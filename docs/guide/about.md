@@ -33,5 +33,5 @@ tags: [标签1, 标签2]
 
 ## 联系方式
 
-- GitHub：[your-username](https://github.com/your-username)
+- GitHub：[Galahadid](https://github.com/Galahadid)
 - 欢迎在文章下方评论区交流

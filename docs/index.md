@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: "My Dev Blog"
+  name: "Galahadid 的技术博客"
   text: "工作与学习问题沉淀"
-  tagline: 记录踩过的每一个坑，让下次排查不再从零开始
+  tagline: Galahadid 的技术沉淀：记录踩过的每一个坑，让下次排查不再从零开始
   actions:
     - theme: brand
       text: 开始阅读

@@ -56,7 +56,7 @@ tags: [标签1, 标签2]
    git init
    git add .
    git commit -m "init: VitePress blog"
-   git remote add origin git@github.com:your-username/my-blog.git
+   git remote add origin git@github.com:Galahadid/p_blocks.git
    git push -u origin main
    ```
 
@@ -70,7 +70,7 @@ tags: [标签1, 标签2]
 
 ## 上线后的个性化清单
 
-- [ ] 全局替换 `your-username` 为你的 GitHub 用户名（`config.mts` 的 socialLinks、README、about 页）
+- [x] 全局替换 `your-username` 为你的 GitHub 用户名（`config.mts` 的 socialLinks、README、about 页）
 - [ ] 修改 `config.mts` 中的 `title`、`description`、`footer`、`sitemap.hostname`
 - [ ] 到 [giscus.app](https://giscus.app) 用仓库生成参数，替换 `.vitepress/theme/index.vue` 中的 `repo` / `repoId` / `category` / `categoryId`，激活评论
 - [ ] 更新首页 `docs/index.md` 的 hero 文案与功能介绍

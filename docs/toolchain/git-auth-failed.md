@@ -32,7 +32,7 @@ git credential-manager erase
 # 或在"控制面板 → 凭据管理器 → Windows 凭据"里删除 git 相关条目
 
 # 2. 把远程地址切换为 SSH
-git remote set-url origin git@github.com:your-username/your-repo.git
+git remote set-url origin git@github.com:Galahadid/p_blocks.git
 ```
 
 ## 举一反三
